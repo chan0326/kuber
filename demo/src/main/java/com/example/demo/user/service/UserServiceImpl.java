@@ -1,39 +1,48 @@
 package com.example.demo.user.service;
 
 
-import com.example.demo.common.component.PageRequestVo;
+import com.example.demo.common.component.MessengerVo;
+import com.example.demo.user.model.User;
 import com.example.demo.user.model.UserDto;
 import com.example.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
 
+
     @Override
-    public UserDto save(UserDto userDto) {
-        return entityToDto(Optional.of(userRepository.save(dtoToEntity(userDto))));
+    public MessengerVo save(UserDto t) {
+        entityToDto((userRepository.save(dtoToEntity(t))));
+        return new MessengerVo();
     }
 
     @Override
-    public void deleteById(Long id) {
+    public MessengerVo deleteById(Long id) {
         userRepository.deleteById(id);
-
+        return new MessengerVo();
     }
 
+
     @Override
-    public List<UserDto> findAll(PageRequestVo vo) {
-        return null;
+    public List<UserDto> findAll() {
+        userRepository.findAll();
+        return new ArrayList<>();
     }
 
     @Override
     public Optional<UserDto> findById(Long id) {
-        return Optional.of(entityToDto(userRepository.findById(id)));
+        // Optional.of(entityToDto(repository.findById(id)));
+        return null;
     }
 
     @Override
@@ -45,4 +54,35 @@ public class UserServiceImpl implements UserService {
     public boolean existsById(Long id) {
         return userRepository.existsById(id);
     }
+
+    @Override
+    public MessengerVo modify(UserDto user) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updatePassword'");
+    }
+
+    @Override
+    public List<UserDto> findUsersByName(String name) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findUsersByName'");
+    }
+
+    @Override
+    public List<UserDto> findUsersByJob(String job) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findUsersByJob'");
+    }
+
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public MessengerVo login(UserDto param) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'login'");
+    }
+
 }

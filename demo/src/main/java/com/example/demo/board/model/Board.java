@@ -20,8 +20,6 @@ public class Board extends BaseEntity {
     @Column(name = "id",nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    private String boardName;
     private String boardType;
 
     @OneToMany(mappedBy = "board")

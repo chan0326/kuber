@@ -3,6 +3,7 @@ package com.example.demo.article.model;
 
 import com.example.demo.board.model.Board;
 import com.example.demo.common.BaseEntity;
+import com.example.demo.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +20,11 @@ public class Article extends BaseEntity {
     private Long id;
     private String title;
     private String content;
-    private Long writer;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer_id", nullable = true)
+    private User writer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", nullable = true)

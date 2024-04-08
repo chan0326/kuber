@@ -1,6 +1,8 @@
 package com.example.demo.user;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
 
 import com.example.demo.common.component.MessengerVo;
@@ -25,35 +27,47 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
     private final UserServiceImpl userservice;
 
-    @SuppressWarnings("unchecked")
-    @PostMapping("")
-    public ResponseEntity<MessengerVo> save(UserDto dto) throws SQLException {
-        userservice.save(dto);
-        return ResponseEntity.ok(new MessengerVo());
+    @SuppressWarnings("static-access")
+    @PostMapping("/save")
+    public ResponseEntity<MessengerVo> save(@RequestBody UserDto dto) throws SQLException {
+        log.info("입력받은 정보: {}",dto);
+        return ResponseEntity.ok(userservice.save(dto));
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MessengerVo> deleteById(Long id) throws SQLException {
-        userservice.deleteById(id);
-        return ResponseEntity.ok(new MessengerVo());
+
+    @PostMapping(path = "/login")
+    public ResponseEntity<MessengerVo> login(@RequestBody UserDto param){
+        log.info("입력받은 정보 : {}",param );
+        return ResponseEntity.ok(userservice.login(param));
     }
-    @GetMapping("")
-    public ResponseEntity<MessengerVo> findAll(PageRequestVo vo) throws SQLException {
-        userservice.findAll(null);
-        return ResponseEntity.ok(new MessengerVo());
+    @DeleteMapping("/delete")
+    public ResponseEntity<MessengerVo> deleteById(@RequestParam Long id) throws SQLException {
+        log.info("입력받은 정보: {}",id);
+        return ResponseEntity.ok(userservice.deleteById(id));
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<MessengerVo> findById(Long id) throws SQLException {
-        userservice.findById(id);
-        return ResponseEntity.ok(new MessengerVo());
+    @GetMapping("list")
+    public ResponseEntity<List<UserDto>> findAll() throws SQLException {
+        return ResponseEntity.ok(userservice.findAll());
+    }
+    @GetMapping("/detail")
+    public ResponseEntity<Optional<UserDto>> findById(@RequestParam Long id) throws SQLException {
+
+        return ResponseEntity.ok((userservice.findById(id)));
     }
     @GetMapping("/count")
-    public ResponseEntity<MessengerVo> count() throws SQLException {
-        return ResponseEntity.ok(new MessengerVo());
+    public ResponseEntity<Long> count() throws SQLException {
+        return ResponseEntity.ok(userservice.count());
     }
-    @GetMapping("/exists/{id}")
-    public ResponseEntity<MessengerVo> existsById(Long id) throws SQLException {
-        userservice.existsById(id);
-        return ResponseEntity.ok(new MessengerVo());
+
+    @PutMapping("/modify")
+    public ResponseEntity<MessengerVo> modify(@RequestBody UserDto param) {
+        log.info("입력받은 정보 : {}", param );
+        return ResponseEntity.ok(userservice.modify(param));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<UserDto>> findUsersByName(@RequestBody UserDto param) {
+        //log.info("입력받은 정보 : {}", name );
+        return ResponseEntity.ok(userservice.findUsersByName(param.getName()));
     }
 
 

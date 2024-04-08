@@ -19,7 +19,6 @@ import java.util.List;
 @Log4j2
 public class BoardDto {
     private Long id;
-    private String boardName;
     private String boardType;
 
     @Builder.Default

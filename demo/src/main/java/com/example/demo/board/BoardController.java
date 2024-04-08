@@ -4,6 +4,7 @@ import com.example.demo.board.model.BoardDto;
 import com.example.demo.board.service.BoardServiceImpl;
 import com.example.demo.common.component.MessengerVo;
 import com.example.demo.common.component.PageRequestVo;
+import com.example.demo.user.model.UserDto;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
@@ -24,36 +26,21 @@ import java.sql.SQLException;
 public class BoardController {
     private final BoardServiceImpl boardService;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("static-access")
     @PostMapping("")
     public ResponseEntity<MessengerVo> save(BoardDto dto) throws SQLException {
-        boardService.save(dto);
-        return ResponseEntity.ok(new MessengerVo());
+        log.info("입력받은 정보: {}",dto);
+        return ResponseEntity.ok(boardService.save(dto));
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MessengerVo> deleteById(Long id) throws SQLException {
-        boardService.deleteById(id);
-        return ResponseEntity.ok(new MessengerVo());
-    }
-    @GetMapping("")
-    public ResponseEntity<MessengerVo> findAll(PageRequestVo vo) throws SQLException {
-        boardService.findAll(null);
-        return ResponseEntity.ok(new MessengerVo());
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<MessengerVo> findById(Long id) throws SQLException {
-        boardService.findById(id);
-        return ResponseEntity.ok(new MessengerVo());
+    @GetMapping("list")
+    public ResponseEntity<List<BoardDto>> findAll() throws SQLException {
+        return ResponseEntity.ok(boardService.findAll());
     }
     @GetMapping("/count")
-    public ResponseEntity<MessengerVo> count() throws SQLException {
-        return ResponseEntity.ok(new MessengerVo());
+    public ResponseEntity<Long> count() throws SQLException {
+        return ResponseEntity.ok(boardService.count());
     }
-    @GetMapping("/exists/{id}")
-    public ResponseEntity<MessengerVo> existsById(Long id) throws SQLException {
-        boardService.existsById(id);
-        return ResponseEntity.ok(new MessengerVo());
-    }
+
     //보드컨트롤러
 
 }

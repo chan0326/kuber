@@ -1,5 +1,6 @@
 package com.example.demo.article.model;
 
+import com.example.demo.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class ArticleDto {
     private Long id;
     private String title;
     private String content;
-    private Long writerId;
+    private User writer;
     private Long boardId;
 
 
