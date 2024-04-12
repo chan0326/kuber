@@ -18,7 +18,9 @@ public class Article extends BaseEntity {
     @Column(name ="id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Setter
     private String title;
+    @Setter
     private String content;
 
 
@@ -29,4 +31,5 @@ public class Article extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", nullable = true)
     private Board board;
+
 }

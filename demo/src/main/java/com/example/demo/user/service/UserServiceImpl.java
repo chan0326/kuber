@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
+
 @Log4j2
 @Service
 @RequiredArgsConstructor
@@ -21,28 +23,54 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public MessengerVo save(UserDto t) {
-        entityToDto((userRepository.save(dtoToEntity(t))));
-        return new MessengerVo();
+    public MessengerVo save(UserDto userDto) {
+//        entityToDto((userRepository.save(dtoToEntity(userDto))));
+        return MessengerVo.builder()
+                .message(
+                        Stream.of(userDto)
+                                .filter(i -> !userRepository.existsByUsername(userDto.getUsername()))
+                                .peek(i -> userRepository.save(dtoToEntity(i)))
+                                .map(i -> "SUCCESS")
+                                .findAny()
+                                .orElseGet(() -> "FAILURE")
+                )
+                .build();
     }
 
     @Override
     public MessengerVo deleteById(Long id) {
-        userRepository.deleteById(id);
-        return new MessengerVo();
+        log.info(id);
+        return MessengerVo.builder()
+                .message(
+                        Stream.of(id)
+                                .filter(i->userRepository.existsById(i))
+                                .peek(i->userRepository.deleteById(i))
+                                .map(i->"SUCCESS")
+                                .findAny()
+                                .orElseGet(()->"FAILURE")
+                )
+                .build();
+
     }
+
 
 
     @Override
     public List<UserDto> findAll() {
-        userRepository.findAll();
-        return new ArrayList<>();
+//        List<User> userList = userRepository.findAll();
+//        List<UserDto> list = new ArrayList<>();
+//        for (User user: userList){
+//            list.add(entityToDto(user));
+//        }
+//        userList.forEach(i -> list.add(entityToDto(i)));
+//        return  list;
+       return    userRepository.findAll().stream().map(i -> entityToDto(i)).toList();
     }
 
     @Override
     public Optional<UserDto> findById(Long id) {
-        // Optional.of(entityToDto(repository.findById(id)));
-        return null;
+
+        return userRepository.findById(id).map(i -> entityToDto(i));
     }
 
     @Override
@@ -57,14 +85,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public MessengerVo modify(UserDto user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updatePassword'");
+         Optional<User> userList=userRepository.findById(user.getId());
+         return MessengerVo.builder().message(
+                 userRepository.findById(user.getId()).stream()
+                         .peek(i->i.setName(user.getName() == null?userList.get().getName(): user.getName()))
+                         .peek(i->i.setPassword(user.getPassword() == null?userList.get().getPassword():user.getPassword()))
+                         .peek(i->i.setUsername(user.getUsername() == null?userList.get().getUsername():user.getUsername()))
+                         .peek(i->i.setPhone(user.getPhone()== null?userList.get().getPhone():user.getPhone()))
+                         .peek(i->i.setJob(user.getJob() == null?userList.get().getJob():user.getJob()))
+                         .map(i->userRepository.save(i))
+                         .map(i->"SUCCESS")
+                         .findAny()
+                         .orElseGet(()->"FAIL"))
+         .build();
     }
 
     @Override
     public List<UserDto> findUsersByName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findUsersByName'");
+       return userRepository.findByUsername(name).map(i->entityToDto(i)).stream().toList();
     }
 
     @Override

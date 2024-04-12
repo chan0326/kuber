@@ -30,23 +30,23 @@ public class ArticleController {
     private final ArticleServiceImpl articleService;
 
     @SuppressWarnings("static-access")
-    @PostMapping("")
+    @PostMapping("/save")
     public ResponseEntity<MessengerVo> save(@RequestBody ArticleDto dto) throws SQLException {
         log.info("입력받은 정보: {}",dto);
         return ResponseEntity.ok(articleService.save(dto));
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete")
     public ResponseEntity<MessengerVo> deleteById(@RequestParam Long id) throws SQLException {
         log.info("입력받은 정보: {}",id);
         return ResponseEntity.ok(articleService.deleteById(id));
     }
-    @GetMapping("")
+    @GetMapping("/list")
     public ResponseEntity<List<ArticleDto>> findAll() throws SQLException {
         return ResponseEntity.ok(articleService.findAll());
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<ArticleDto>> findById(@RequestParam Long writer) throws SQLException {
-        return ResponseEntity.ok(articleService.findById(writer));
+    @GetMapping("/detail")
+    public ResponseEntity<Optional<ArticleDto>> findById(@RequestParam Long id) throws SQLException {
+        return ResponseEntity.ok(articleService.findById(id));
     }
     @GetMapping("/count")
     public ResponseEntity<Long> count() throws SQLException {
@@ -57,6 +57,7 @@ public class ArticleController {
         //log.info("입력받은 정보 : {}", name );
 //        return ResponseEntity.ok(articleService.findUsersByWriter(param.getWriter()));
         return  null;
+
     }
 
     @PutMapping("/modify")
@@ -64,6 +65,8 @@ public class ArticleController {
         log.info("입력받은 정보 : {}", param );
         return ResponseEntity.ok(articleService.modify(param));
     }
+
+
 
 
 }

@@ -20,8 +20,9 @@ public class Board extends BaseEntity {
     @Column(name = "id",nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Setter
     private String boardType;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Article> articlesId;
 }

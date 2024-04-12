@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class BoardDto {
 
     @Builder.Default
     private List<Article> articlesId =new ArrayList<>();
+    private String regDate;
+    private String modDate;
 
 
 }

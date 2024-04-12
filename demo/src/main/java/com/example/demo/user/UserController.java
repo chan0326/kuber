@@ -44,8 +44,9 @@ public class UserController {
         log.info("입력받은 정보: {}",id);
         return ResponseEntity.ok(userservice.deleteById(id));
     }
-    @GetMapping("list")
+    @GetMapping("/list")
     public ResponseEntity<List<UserDto>> findAll() throws SQLException {
+
         return ResponseEntity.ok(userservice.findAll());
     }
     @GetMapping("/detail")
@@ -55,6 +56,7 @@ public class UserController {
     }
     @GetMapping("/count")
     public ResponseEntity<Long> count() throws SQLException {
+
         return ResponseEntity.ok(userservice.count());
     }
 

@@ -15,6 +15,7 @@ public interface ArticleService extends CommandService<ArticleDto>, QueryService
     List<ArticleDto> findUsersByWriter(String Writer);
     default Article dtoToEntity(ArticleDto dto){
         return Article.builder()
+                .id(dto.getId())
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .build();
@@ -22,6 +23,7 @@ public interface ArticleService extends CommandService<ArticleDto>, QueryService
 
     default ArticleDto entityToDto(Article article){
         return ArticleDto.builder()
+                .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
                 .build();

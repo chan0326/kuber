@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
@@ -32,13 +33,23 @@ public class BoardController {
         log.info("입력받은 정보: {}",dto);
         return ResponseEntity.ok(boardService.save(dto));
     }
-    @GetMapping("list")
+    @GetMapping("/list")
     public ResponseEntity<List<BoardDto>> findAll() throws SQLException {
         return ResponseEntity.ok(boardService.findAll());
     }
     @GetMapping("/count")
     public ResponseEntity<Long> count() throws SQLException {
         return ResponseEntity.ok(boardService.count());
+    }
+    @GetMapping("/detail")
+    public ResponseEntity<Optional<BoardDto>> findById(@RequestParam Long id) throws SQLException {
+
+        return ResponseEntity.ok((boardService.findById(id)));
+    }
+    @DeleteMapping("/delete")
+    public ResponseEntity<MessengerVo> deleteById(@RequestParam Long id) throws SQLException {
+        log.info("입력받은 정보: {}",id);
+        return ResponseEntity.ok(boardService.deleteById(id));
     }
 
     //보드컨트롤러
