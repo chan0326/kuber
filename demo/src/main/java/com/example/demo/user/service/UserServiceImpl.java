@@ -102,13 +102,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> findUsersByName(String name) {
-       return userRepository.findByUsername(name).map(i->entityToDto(i)).stream().toList();
+       return userRepository.findByName(name).stream().map(i->entityToDto(i)).toList();
     }
 
     @Override
     public List<UserDto> findUsersByJob(String job) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findUsersByJob'");
+        return userRepository.findByJob(job).stream().map(i->entityToDto(i)).toList();
     }
 
 
@@ -116,11 +115,16 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-
+// SRP 에 따라 아이디 존재여부를 프론트에서 먼저 판단하고, 넘어옴 (시큐리티) get()-> optional 때문에 아이디가 무조건존재한다는 뜻으로 사용 저걸 안쓰면  or else()
     @Override
     public MessengerVo login(UserDto param) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'login'");
+        return MessengerVo.builder()
+                .message( findUserByUsername(param.getUsername()).get().getPassword().equals( param.getPassword()) ? "SUCCESS":"FAILRE")
+                .build();
     }
+
+
+
+
 
 }
