@@ -6,8 +6,9 @@ export const initialState:IUser = {
     password: '',
     name: '',
     phone: '',
+    addressId: 0,
     job: '',
-    json: {},
-    array: [],
-    message:''
+    email : '',
+    regDate : '',
+    modDate : '',
 }

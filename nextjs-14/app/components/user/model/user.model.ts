@@ -4,10 +4,10 @@ export interface IUser{
         password?: string
         name?: string
         phone?: string
-        job?:string
-         regDate? : string
-         modDate? : string
-         json? : {}
-        array?: IUser[]
-        message?: string 
+        addressId?: number
+        job?: string
+        email? : string
+        regDate? : string
+        modDate? : string
+    
 }

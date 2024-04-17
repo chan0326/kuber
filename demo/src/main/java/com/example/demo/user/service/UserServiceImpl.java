@@ -1,6 +1,7 @@
 package com.example.demo.user.service;
 
 
+import com.example.demo.common.component.JwtProvider;
 import com.example.demo.common.component.MessengerVo;
 import com.example.demo.user.model.User;
 import com.example.demo.user.model.UserDto;
@@ -19,6 +20,8 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final JwtProvider jwtProvider;
+
 
 
 
@@ -118,8 +121,10 @@ public class UserServiceImpl implements UserService {
 // SRP 에 따라 아이디 존재여부를 프론트에서 먼저 판단하고, 넘어옴 (시큐리티) get()-> optional 때문에 아이디가 무조건존재한다는 뜻으로 사용 저걸 안쓰면  or else()
     @Override
     public MessengerVo login(UserDto param) {
+        boolean flag = findUserByUsername(param.getUsername()).get().getPassword().equals( param.getPassword());
         return MessengerVo.builder()
-                .message( findUserByUsername(param.getUsername()).get().getPassword().equals( param.getPassword()) ? "SUCCESS":"FAILRE")
+                .message( flag ? "SUCCESS":"FAILRE")
+                .token(flag ? jwtProvider.createToken(param): "none")
                 .build();
     }
 

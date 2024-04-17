@@ -5,6 +5,8 @@ import "./globals.css";
 import dynamic from "next/dynamic";
 import Header from "./components/common/module/header";
 import { useState } from "react";
+import DashHeader from "./components/common/module/dash-header";
+import { parseCookies } from "nookies";
 
 const ReduxProvider = dynamic(()=> import("@/redux/redux-provide"),{
   ssr:false
@@ -23,16 +25,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const [showHeader,setShowHeader] = useState<boolean>(false);
 
   return (
     <html lang="en">
-    <body className={inter.className}>
-      {showHeader && <Header/>}
-      <div className="mt-100">
-      <ReduxProvider > {children}</ReduxProvider>
-      </div>
-    </body>
-  </html>
+      <body className={inter.className}>
+        {parseCookies().message === 'SUCCESS' && <Header/>}
+        {parseCookies().message === 'ADMIN' && <DashHeader/>}
+        <div className="mt-100">
+        <ReduxProvider > {children}</ReduxProvider>
+        </div>
+      </body>
+    </html>
   );
 }

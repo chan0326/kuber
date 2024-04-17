@@ -2,10 +2,11 @@ import { ReactNode } from "react"
 
 export interface IBoard{
     id : number,
-    boardType : string,
-    regDate? : string
+    title? : string,
+    description? : string,
+    regDate? : string,
     modDate? : string
-    array?: IBoard[]
-    json?: {}
+    
+    
     
 }

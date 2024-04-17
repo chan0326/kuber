@@ -17,7 +17,6 @@ async(page:number, {rejectWithValue})=>{
 )
 export const findBoardById: any = createAsyncThunk('boards/findBoardById',
 async(id:number, {})=>{
-    console.log('findBoardById page:'+ id)
     
     const data:any = await  findABoardByIdAPI(id);
         const {message, result}:any = data

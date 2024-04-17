@@ -16,8 +16,6 @@ import { PG } from '@/app/components/common/enums/PG';
 import { useRouter } from 'next/navigation';
 
 export default function UserDetailPage ({params}:any){
-    const router = useRouter();
-    const [id] = params.id
     const dispatch = useDispatch()
     const user:IUser = useSelector(getfindUserById)
 

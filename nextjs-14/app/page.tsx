@@ -5,12 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch,useSelector} from "react-redux";
 import { findlogin } from "./components/user/service/user.service";
-import { getMessage } from "./components/user/service/user.slice";
+import { getauth } from "./components/user/service/user.slice";
 import { IUser } from "./components/user/model/user.model";
 import { json } from "stream/consumers";
+import nookies,{ parseCookies, destroyCookie, setCookie } from 'nookies'
 export default function Home() {
   const [user,setUser] = useState({} as IUser) 
-  const message = useSelector(getMessage) 
+  const auth  = useSelector(getauth ) 
   const dispatch = useDispatch()
   const handelIdChange = (e: any) => {
     setUser({...user,
@@ -27,23 +28,24 @@ export default function Home() {
     console.log('user ... '+JSON.stringify(user))
     dispatch(findlogin(user))}
 
-  useEffect(()=>{
-    if (message === 'SUCCESS'){
-      router.push("/pages/boards/list")
-  
-  }else if (message === 'FAILRE'){
-    console.log("WRONG_PASSWORD")
-  }else {
-    console.log("지정되지 않는 값")
-  }
-  },[message])
+    useEffect(()=>{
+      if(auth.message ==='SUCCESS'){
+        setCookie({},'message', auth.message, { httpOnly: false, path: '/' })
+        setCookie({},'token', auth.token, { httpOnly: false, path: '/' })
+        console.log('서버에서 넘어온 메시지 '+parseCookies().message)
+        console.log('서버에서 넘어온 토큰 '+parseCookies().token)
+        router.push('/pages/boards/card')
+      }else{
+        console.log('LOGIN FAIL')
+      }
+    },[auth])
 
     
   
-  return (<div className='text-center'>
-    <br />
-    <h2>welcome to react world</h2> <br />
-     <div className="flex items-center justify-center w-full px-5 sm:px-0">
+  return (
+    <div className='margincenter w-4/5 my-[30px] border-double border-4'>
+    <div className="text-3xl font-bold underline text-center">welcom to react world !!</div><br />
+    <div className="flex items-center justify-center w-full px-5 sm:px-0">
       <div className="flex bg-white rounded-lg shadow-lg border overflow-hidden max-w-sm lg:max-w-4xl w-full">
         <div
           className="hidden md:block lg:w-1/2 bg-cover bg-blue-700"
@@ -55,12 +57,12 @@ export default function Home() {
           <p className="text-xl text-gray-600 text-center">Welcome back!</p>
           <div className="mt-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-               ID
+              ID
             </label>
             <input
-            onChange={handelIdChange}
+              onChange={handelIdChange}
               className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
-              type="id"
+              type="email"
               required
             />
           </div>
@@ -71,7 +73,7 @@ export default function Home() {
               </label>
             </div>
             <input
-            onChange={handelPwChange}
+              onChange={handelPwChange}
               className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
               type="password"
             />
@@ -83,7 +85,9 @@ export default function Home() {
             </a>
           </div>
           <div className="mt-8">
-            <button onClick={handelSubmit} className="bg-blue-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-blue-600">
+            <button 
+            onClick={handelSubmit}
+            className="bg-blue-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-blue-600">
               Login
             </button>
           </div>
@@ -120,9 +124,8 @@ export default function Home() {
             </div>
           </a>
           <div className="mt-4 flex items-center w-full text-center">
-            
             <Link
-              href="/pages/users/join"
+              href="/pages/user/join"
               className="text-xs text-gray-500 capitalize text-center w-full"
             >
               Don&apos;t have any account yet?
@@ -132,7 +135,7 @@ export default function Home() {
         </div>
       </div>
     </div>
- 
+   
   </div>
   );
 }

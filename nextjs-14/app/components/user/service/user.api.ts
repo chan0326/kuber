@@ -32,9 +32,9 @@ export const findUserByIdAPI = async (id:number) =>{
 }
 export const loginAPI = async (user:IUser) => {
     try{
-        const response = await instance.post('/auth/login',user)
+        const response = await instance.post('/users/login',user)
         // java 에서 Messenger.message에 값을 담음
-        return response.data.message
+        return response.data
     } 
     catch(error){
         console.log(error)

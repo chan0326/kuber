@@ -20,12 +20,36 @@ export default function Columns() : GridColDef[]{
         },
         {
             flex:0.04,
-            field: 'boardType',
+            field: 'title',
             minWidth: 30,
             sortable:false,
-            headerName: 'boardType',
+            headerName: 'title',
             renderCell:({row}:CellType) => <Typography textAlign="center" sx={{ fontSize: "1.2rem" }}>
-                <Link href={`${PG.BORAD}/detail/${row.id}`}>{row.boardType}</Link></Typography>
+                <Link href={`${PG.BOARD}/detail/${row.id}`}>{row.title}</Link></Typography>
+        },
+        {
+            flex:0.04,
+            field: 'description',
+            minWidth: 30,
+            sortable:false,
+            headerName: 'description',
+            renderCell:({row}:CellType) => <Typography textAlign="center" sx={{ fontSize: "1.2rem" }}>{row.description}</Typography>
+        },
+        {
+            flex:0.04,
+            field: 'modDate',
+            minWidth: 30,
+            sortable:false,
+            headerName: 'modDate',
+            renderCell:({row}:CellType) => <Typography textAlign="center" sx={{ fontSize: "1.2rem" }}>{row.modDate}</Typography>
+        },
+        {
+            flex:0.04,
+            field: 'regDate',
+            minWidth: 30,
+            sortable:false,
+            headerName: 'regDate',
+            renderCell:({row}:CellType) => <Typography textAlign="center" sx={{ fontSize: "1.2rem" }}>{row.regDate}</Typography>
         },
        
     ]

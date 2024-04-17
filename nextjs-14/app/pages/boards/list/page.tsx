@@ -20,7 +20,7 @@ const cards = [
 
 export default function BoardsPage ()  {
     const dispatch = useDispatch()
-    const allBoards: [] = useSelector(getAllBoards)
+    const allBoards= useSelector(getAllBoards)
 
     if (allBoards !== undefined) {
         console.log('allBoards is not undefined')
@@ -35,7 +35,7 @@ export default function BoardsPage ()  {
 
     useEffect(() => {
         dispatch(findAllBoards(1))
-    }, [])
+    }, [allBoards])
 
     return (<>
        <table  className="table-auto w-4/5 border-x-black" style={{margin: '50px auto'}}>
