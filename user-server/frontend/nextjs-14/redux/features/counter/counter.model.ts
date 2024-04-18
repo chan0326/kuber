@@ -1,3 +1,0 @@
-interface Icounter{
-    value: number
-  }

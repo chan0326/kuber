@@ -51,6 +51,14 @@ export default function Columns() : GridColDef[]{
             headerName: 'modDate',
             renderCell:({row}:CellType) => <Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>{row.modDate}</Typography>
         },
+        {
+            flex:0.04,
+            field: 'boardType',
+            minWidth: 30,
+            sortable:false,
+            headerName: 'boardType',
+            renderCell:({row}:CellType) => <Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>{row.boardId}</Typography>
+        },
         
         
     ]

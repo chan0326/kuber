@@ -5,10 +5,8 @@ export const initialState:IArticle = {
     title: "",
     content: "",
     writer: "",
-    boardType: "",
+    boardId: 0,
     regDate: "",
     modDate: "",
-    json: {},
-    array: [],
     count: 0
 }

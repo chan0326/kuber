@@ -7,6 +7,8 @@ import { findAllArticles } from "@/app/components/article/service/article.servic
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllArticles } from "@/app/components/article/service/article.slice";
 import Columns from "@/app/components/article/module/columns";
+import MoveButton from '@/app/atoms/button/MoveButton';
+import { PG } from '@/app/components/common/enums/PG';
 
 
 
@@ -38,7 +40,15 @@ const ArticlesPage: NextPage = () => {
         pageSizeOptions={[5,10,20]} // 4-1
         checkboxSelection
       />}
-    </div>
+    </div><br />
+        <tr>
+            <td>
+                <MoveButton text={'글쓰기'} path={`${PG.ARTICLE}/save`}/>
+            </td>
+        </tr>
+
+
+
     </>)
 }
 
