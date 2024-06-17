@@ -5,13 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.datetime.DateFormatter;
 
 
-import java.text.DateFormat;
-
 @Configuration
 public class ServerConfig {
+
     @Bean
     public String datePattern(){
-        return "yyyy-MM_dd'T'HH:mm:ss.XXX";
+        return "yyyy-mm-dd'T'HH:mm:ss.XXX";
     }
     @Bean
     public DateFormatter defaultDateFormatter(){

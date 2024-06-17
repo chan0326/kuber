@@ -1,66 +1,30 @@
 package com.example.demo.common.security.service;
 
+
 import com.example.demo.common.component.MessengerVo;
-import com.example.demo.user.model.User;
-import com.example.demo.user.model.UserDto;
+import com.example.demo.common.component.security.JwtProvider;
+import com.example.demo.user.domain.UserDto;
 import com.example.demo.user.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
-@Log4j2
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final UserRepository userRepository;
-    @Override
-    public MessengerVo modify(UserDto user) {
-        return null;
-    }
-
+    private final UserRepository repo;
+    private final JwtProvider jwt;
 
     @Override
-    public MessengerVo login(UserDto param) {
-        boolean flag = findUserByUsername(param.getUsername()).get().getPassword().equals( param.getPassword());
-
-
+    public MessengerVo login(UserDto dto) {
+        boolean flag = repo.findUserByUsername(
+                dto.getUsername()).get().getPassword().equals(dto.getPassword());
         return MessengerVo.builder()
-                .message( flag ? "SUCCESS":"FAILRE")
-                .token(flag ? createToken(param): "none")
+                .message(flag ? "SUCCESS" : "FAILURE")
+                .accessToken(flag ? jwt.createToken(dto) : "Noe")
                 .build();
     }
-
-    @Override
-    public Optional<User> findUserByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    @Override
-    public String createToken(UserDto user) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime tokenValid = now.plusSeconds(24*60*60*1000);
-        String token = Jwts.builder()
-                .claims()
-
-                .issuer("erichgamma.co.kr")
-                .add("sub","User Auth")
-                .add("exp",tokenValid)
-                .add("id",user.getId())
-                .add("username",user.getUsername())
-                .add("job","admin")
-                .and()
-
-                .compact();
-        log.info("로그인 성공으로 발급된 토근: "+token);
-        return token;
-
-    }
-
 
 }

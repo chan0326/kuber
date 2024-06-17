@@ -4,12 +4,15 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
-@Getter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class MessengerVo {
     private String message;
-    private int sataus;
-    private String token;
+    private int status;
+    private String accessToken;
+    private String refreshToken;
+    private Long boardId;
 }

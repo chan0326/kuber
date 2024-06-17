@@ -1,0 +1,106 @@
+package com.example.demo.user.service;
+
+import com.example.demo.user.domain.UserModel;
+import com.example.demo.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import  static org.assertj.core.api.Assertions.assertThat;
+
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@Transactional //데이터 롤백 어노테이션
+public class UserModelServiceImplTest {
+    @Autowired UserService service;
+    @Autowired UserRepository userRepository;
+
+    @Test
+    @DisplayName("유저 회원수")
+    void count() {
+        Assertions.assertEquals(service.count(),15);
+
+    }
+
+
+    @Test
+    void save() {
+        UserModel userModel = new UserModel();
+
+        userModel.setName("chan");
+        userModel.setPassword("8912");
+        userModel.setUsername("qw");
+        userModel.setPhone("010-45");
+        userRepository.save(userModel);
+        Assertions.assertEquals(userRepository.existsByUsername("qw"),true);
+
+
+
+
+
+    }
+
+//    @Test
+//    void deleteById() {
+//        userRepository.deleteById(1L);
+//
+//
+//    }
+
+    @Test
+    void findAll() {
+        System.out.println( userRepository.findAll());
+    }
+
+    @Test
+    void findById() {
+        System.out.println(userRepository.findById(1L));
+    }
+
+    @Test
+    void existsById() {
+        Assertions.assertEquals(userRepository.existsById(1L),true);
+        Assertions.assertEquals(userRepository.existsById(17L),false);
+    }
+
+    @Test
+    void modify() {
+    }
+
+    @Test
+    void findUsersByName() {
+        UserModel userModel = new UserModel();
+
+        userModel.setName("chan");
+        userModel.setPassword("8912");
+        userModel.setUsername("qw");
+        userModel.setPhone("010-45");
+        userRepository.save(userModel);
+        System.out.println(userRepository.findByUsername("qw"));
+    }
+
+    @Test
+    void findUsersByJob() {
+        UserModel userModel = new UserModel();
+
+        userModel.setName("chan");
+        userModel.setPassword("8912");
+        userModel.setUsername("qw");
+        userModel.setPhone("010-45");
+        userRepository.save(userModel);
+        System.out.println(userRepository.findByUsername("qw"));
+    }
+
+    @Test
+    void findUserByUsername() {
+    }
+
+    @Test
+    void login() {
+    }
+}
